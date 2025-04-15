@@ -9,24 +9,41 @@ import { Title } from './title';
 import { RangeSlider } from '../ui/range-slider';
 import { useFilterIngredients } from '@/hooks/useFilterIngredients';
 import { useSet } from 'react-use';
+import qs from 'qs'
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   className?: string;
 }
 
 interface PriceProps {
-  priceFrom: number;
-  priceTo: number;
+  priceFrom?: number;
+  priceTo?: number;
   
 }
 
+interface QueryFilers extends PriceProps {
+    pizzaTypes: string;
+    sizes: string;
+    ingredients: string;
+}
+
 export const Filters: React.FC<Props> = ({ className }) => {
+  const searchParams = useSearchParams() as unknown as Map<keyof QueryFilers, string>;
+
+  const router = useRouter();
   const { ingredients, loading, onAddId, selectedIds } = useFilterIngredients();
+
+  
+
 
   const [sizes, { toggle: toggleSizes }] = useSet(new Set<string>([]));
   const [pizzaTypes, { toggle: togglePizzaTypes }] = useSet(new Set<string>([]));
-  
-  const [prices, setPrice] = React.useState<PriceProps>({ priceFrom: 0, priceTo: 5000});
+
+  const [prices, setPrice] = React.useState<PriceProps>({
+    priceFrom: Number(searchParams.get('priceFrom')) || undefined,
+    priceTo: Number(searchParams.get('priceTo')) || undefined,
+  });
 
 
   const items = ingredients.map((item) => ({value: String(item.id), text: item.name}));
@@ -37,6 +54,26 @@ export const Filters: React.FC<Props> = ({ className }) => {
       [name]: value,
     })
   }
+  
+
+
+  React.useEffect(() => {
+    const filters = {
+      ...prices,
+      pizzaTypes: Array.from(pizzaTypes),
+      sizes: Array.from(sizes),
+      ingredients: Array.from(selectedIds),
+    };
+
+    const query = qs.stringify(filters, {
+      arrayFormat: 'comma',
+    });
+
+    router.push(`?${query}`, {
+      scroll: false,
+    });
+    
+  }, [prices, pizzaTypes, sizes, selectedIds, router]);
 
   return (
     <div className={className}>
@@ -70,12 +107,12 @@ export const Filters: React.FC<Props> = ({ className }) => {
       <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
         <p className="font-bold mb-3">Цена от и до:</p>
         <div className="flex gap-3 mb-5">
-          <Input type="number" placeholder="0" min={0} max={30000} value={String(prices.priceFrom)} onChange={(e) => updatePrice('priceFrom', Number(e.target.value))} />
-          <Input type="number" min={100} max={30000} placeholder="30000" value={String(prices.priceTo)} onChange={(e) => updatePrice('priceTo', Number(e.target.value))} />
+          <Input type="number" placeholder="0" min={0} max={5000} value={String(prices.priceFrom)} onChange={(e) => updatePrice('priceFrom', Number(e.target.value))} />
+          <Input type="number" min={100} max={5000} placeholder="5000" value={String(prices.priceTo)} onChange={(e) => updatePrice('priceTo', Number(e.target.value))} />
         </div>
         <RangeSlider min={0} max={5000} step={10} value={[
-          prices.priceFrom,
-          prices.priceTo,
+          prices.priceFrom || 0 ,
+          prices.priceTo || 5000,
         ]} 
        onValueChange={([priceFrom, priceTo]) => setPrice({ priceFrom, priceTo })} 
         />
