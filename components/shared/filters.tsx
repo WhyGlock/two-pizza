@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { CheckboxFiltersGroup } from '@/components/shared/checkbox-filters-group';
 import { Title } from './title';
 import { RangeSlider } from '../ui/range-slider';
-import { useFilterIngredients } from '@/hooks/useFilterIngredients';
+import { useFilterIngredients } from '@/hooks/use-filter-ingredients';
 import { useSet } from 'react-use';
 import qs from 'qs'
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -32,7 +32,10 @@ export const Filters: React.FC<Props> = ({ className }) => {
   const searchParams = useSearchParams() as unknown as Map<keyof QueryFilers, string>;
 
   const router = useRouter();
-  const { ingredients, loading, onAddId, selectedIds } = useFilterIngredients();
+  const { ingredients, loading, onAddId, selectedIds} = useFilterIngredients(
+    searchParams.get('ingredients')?.split(','),
+
+);
 
 
 

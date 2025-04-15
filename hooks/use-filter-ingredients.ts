@@ -10,11 +10,12 @@ interface ReturnProps {
   onAddId: (id: string) => void;
 }
 
-export const useFilterIngredients = (): ReturnProps => {
+export const useFilterIngredients = (values: string[] = []): ReturnProps => {
   const [ingredients, setIngredients] = React.useState<Ingredient[]>([]);
   const [loading, setLoading] = React.useState(true);
 
-  const [selectedIds, {toggle}] = useSet(new Set<string>([]));
+  // Исправлено: передаём просто values, а не [values]
+  const [selectedIds, { toggle }] = useSet(new Set<string>(values));
 
   React.useEffect(() => {
     const fetchIngredients = async () => {
@@ -22,14 +23,19 @@ export const useFilterIngredients = (): ReturnProps => {
         const ingredients = await Api.ingredients.getAll();
         setIngredients(ingredients);
       } catch (error) {
-        console.log(error);
+        console.error("Ошибка при загрузке ингредиентов:", error);
       } finally {
-        setLoading(false); // обязательно!
+        setLoading(false);
       }
     };
 
     fetchIngredients();
   }, []);
 
-  return { ingredients, loading, onAddId: toggle, selectedIds };
+  return {
+    ingredients,
+    loading,
+    selectedIds,
+    onAddId: toggle,
+  };
 };
