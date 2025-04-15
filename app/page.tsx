@@ -6,8 +6,23 @@ import { Pagination } from '@/components/shared/pagination';
 import { ProductsGroupList } from '@/components/shared/products-group-list';
 import { SortPopup } from '@/components/shared/sort-popup';
 import { Title } from '@/components/shared/title';
+import { TopBar } from '@/components/shared/top-bar';
+import { prisma } from '@/prisma/prisma-client';
+import { AwardIcon } from 'lucide-react';
+import { Turret_Road } from 'next/font/google';
 
-export default function Home() {
+export default async function Home() {
+  const categories = await prisma.category.findMany({
+    include: {
+      products: {
+        include: {
+          ingredients: true,
+          items: true,
+        },
+      },
+    },
+  });
+
   return (
     <main className="min-h-screen bg-white rounded-3xl">
       <Header />
@@ -16,50 +31,11 @@ export default function Home() {
         <Title text="Все пиццы" size="lg" className="font-extrabold" />
       </Container>
 
-      <div className="sticky top-0 bg-white py-5 shadow-lg shadow-black/5">
-        <Container className="flex items-center justify-between ">
-          <Categories />
-          <SortPopup />
-        </Container>
-      </div>
+      <TopBar categories={categories.filter((category) => category.products.length > 0)}/>
+
 
       <Container className="grid grid-cols-6 gap-2 my-10">
-        <img
-          className="rounded-md"
-          height={250}
-          width={200}
-          src="https://cdn.inappstory.ru/story/xep/xzh/zmc/cr4gcw0aselwvf628pbmj3j/custom_cover/logo-350x440.webp?k=IgAAAAAAAAAE&v=3101815496"
-        />
-        <img
-          className="rounded-md"
-          height={250}
-          width={200}
-          src="https://cdn.inappstory.ru/story/km2/9gf/jrn/sb7ls1yj9fe5bwvuwgym73e/custom_cover/logo-350x440.webp?k=IgAAAAAAAAAE&v=3074015640"
-        />
-        <img
-          className="rounded-md"
-          height={250}
-          width={200}
-          src="https://cdn.inappstory.ru/story/quw/acz/zf5/zu37vankpngyccqvgzbohj1/custom_cover/logo-350x440.webp?k=IgAAAAAAAAAE&v=1336215020"
-        />
-        <img
-          className="rounded-md"
-          height={250}
-          width={200}
-          src="https://cdn.inappstory.ru/story/xep/xzh/zmc/cr4gcw0aselwvf628pbmj3j/custom_cover/logo-350x440.webp?k=IgAAAAAAAAAE&v=3101815496"
-        />
-        <img
-          className="rounded-md"
-          height={250}
-          width={200}
-          src="https://cdn.inappstory.ru/story/km2/9gf/jrn/sb7ls1yj9fe5bwvuwgym73e/custom_cover/logo-350x440.webp?k=IgAAAAAAAAAE&v=3074015640"
-        />
-        <img
-          className="rounded-md"
-          height={250}
-          width={200}
-          src="https://cdn.inappstory.ru/story/quw/acz/zf5/zu37vankpngyccqvgzbohj1/custom_cover/logo-350x440.webp?k=IgAAAAAAAAAE&v=1336215020"
-        />
+  
       </Container>
 
       <Container className="pb-14">
@@ -70,117 +46,18 @@ export default function Home() {
 
           <div className="flex-1">
             <div className="flex flex-col gap-16">
-              <ProductsGroupList
-                title="Пиццы"
-                items={[
-                  {
-                    id: 1,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 2,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 3,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 4,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 5,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 6,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 7,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  
-                ]}
-                categoryId={1} listClassName={''}              />
-                <ProductsGroupList
-                title="Комбо"
-                items={[
-                  {
-                    id: 8,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 9,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 10,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 11,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 12,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 13,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  {
-                    id: 14,
-                    name: 'Гавайская-пицца',
-                    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D610BBEB562BD4D48786AD87270.webp',
-                    price: 550,
-                    items: [{ price: 550 }],
-                  },
-                  
-                ]}
-                categoryId={2} listClassName={''} 
-                />
+              {categories.map(
+                (category) => 
+                  category.products.length > 0 && (
+                   <ProductsGroupList
+                      key={category.id}
+                      title={category.name}
+                      categoryId={category.id}
+                      items={category.products} 
+                      listClassName={''}                   />
+                  ),
+                
+              )}
             </div>
           </div>
         </div>
