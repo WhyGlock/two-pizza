@@ -8,3 +8,5 @@ export { TopBar } from './top-bar';
 export { Filters } from './filters';
 export { FilterCheckbox } from './filter-checkbox';
 export { ProductImage } from './product-image'
+export * from './modals'
+export { ChooseProductForm } from './choose-product-form'
