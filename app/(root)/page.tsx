@@ -1,15 +1,9 @@
-import { Categories } from '@/components/shared/categories';
-import { Container } from '@/components/shared/container';
-import { Filters } from '@/components/shared/filters';
-import { Header } from '@/components/shared/header';
-import { Pagination } from '@/components/shared/pagination';
-import { ProductsGroupList } from '@/components/shared/products-group-list';
-import { SortPopup } from '@/components/shared/sort-popup';
-import { Title } from '@/components/shared/title';
-import { TopBar } from '@/components/shared/top-bar';
+import { Container } from '@/shared/components/shared/container';
+import { Filters } from '@/shared/components/shared/filters';
+import { ProductsGroupList } from '@/shared/components/shared/products-group-list';
+import { Title } from '@/shared/components/shared/title';
+import { TopBar } from '@/shared/components/shared/top-bar';
 import { prisma } from '@/prisma/prisma-client';
-import { AwardIcon } from 'lucide-react';
-import { Turret_Road } from 'next/font/google';
 
 export default async function Home() {
   const categories = await prisma.category.findMany({
