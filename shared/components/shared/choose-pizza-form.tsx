@@ -4,10 +4,12 @@ import { ProductImage } from "./product-image";
 import { Title } from "./title";
 import { Button } from "../ui/button";
 import { GroupVariants } from "./group-variants";
-import { PizzaSize, pizzaSizes, PizzaType, pizzaTypes } from "@/shared/constant/pizza";
+import { mapPizzaType, PizzaSize, pizzaSizes, PizzaType, pizzaTypes } from "@/shared/constant/pizza";
 import { IngredientItem } from "./ingredient-item";
 import { Ingredient, ProductItem } from "@prisma/client";
 import { useSet } from "react-use";
+import { calcTotalPizzaPrice, getAvailablePizzaSizes, getPizzaDetails } from "@/shared/lib";
+import { usePizzaOptions } from "@/shared/hooks";
 
 interface Props {
     imageUrl: string;
@@ -26,14 +28,15 @@ export const ChoosePizzaForm: React.FC<Props> = ({
     onClickAddCart,
     className, 
 }) => {
-    const [size, setSize] = React.useState<PizzaSize>(20);
-    const [type, setType] = React.useState<PizzaType>(1);
+    const {size, type, selectedIngredients, availableSizes, setSize, setType, addIngredient} = usePizzaOptions(items);
 
-    const [selectedIngredients, {toggle: addIngredient}] = useSet(new Set<number>([]));
+    const {totalPrice, textDetails } = getPizzaDetails(type, size, items, ingredients, selectedIngredients);
 
-    const textDetails = '30 см, традиционное тесто 30';
-    const totalPrice = 450;
 
+    const handleCilckAdd = () => {
+         onClickAddCart?.();
+    }
+    
     
 
     return ( <div className={cn(className, 'flex flex-1')}>
@@ -45,7 +48,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
                 <p className="text-gray-400">{textDetails}</p>
 
                 <div className="flex flex-col gap-4 mt-5">
-                <GroupVariants items={pizzaSizes} Value={String(size)} onClick={Value => setSize(Number(Value) as PizzaSize)} />
+                <GroupVariants items={availableSizes} Value={String(size)} onClick={Value => setSize(Number(Value) as PizzaSize)} />
                 <GroupVariants items={pizzaTypes} Value={String(type)} onClick={Value => setType(Number(Value) as PizzaType)} />
                 </div>
 
