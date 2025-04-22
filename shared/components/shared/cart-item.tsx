@@ -2,30 +2,34 @@ import { cn } from '@/shared/lib/utils';
 import React from 'react';
 import { CountButton } from './count-button';
 
-interface Props {
-  imageUrl?: string;
-  name?: string;
-  price?: number;
+import * as CartItem from './cart-item-details'
+import { CartItemProps } from './cart-item-details/cart-item-details.types';
+import { Trash2Icon } from 'lucide-react';
+
+interface Props extends CartItemProps{
   className?: string;
-  count?: number;
+
 }
 
-export const CartItem: React.FC<Props> = ({ imageUrl, name, price, count, className }) => {
+export const CartDrawerItem: React.FC<Props> = ({id, imageUrl, details, name, price, quantity, className}) => {
   return (
     <div className={cn('flex bg-white h-36 p-5 gap-6', className)}>
-      <img className="w-[65px] h-[65px]" src={imageUrl} alt="Logo" />
+      <CartItem.Image src={imageUrl}/>
+      <div className="flex-1">
+        <CartItem.Info name={name} details={details}/>
 
-      <div>
-        <h2 className="text-lg font-bold">{name}</h2>
-        <p className="text-sm text-gray-400">Средняя 30 см, традиционное тесто</p>
-        <hr className="my-3" />
-
+        <hr className="my-3"></hr>
         <div className="flex items-center justify-between">
-          <CountButton value={count} />
+          <CountButton onClick={(type) => console.log(type)} value={quantity} />
 
-          <h2 className="font-bold">{price} ₽</h2>
+          <div className="flex items-center gap-3"> 
+            <CartItem.Price value={price}/>
+            <Trash2Icon className="text-gray-400 cursor-pointer hover:text-gray-600" size={16}/>
+          </div>
         </div>
       </div>
     </div>
   );
 };
+export { CartItem };
+

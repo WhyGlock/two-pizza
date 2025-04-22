@@ -5,7 +5,7 @@ import { Header } from '@/shared/components/shared/header';
 
 
 export const metadata: Metadata = {
-  title: 'Create Next App',
+  title: 'Две пиццы',
 };
 
 
