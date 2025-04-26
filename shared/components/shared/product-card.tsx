@@ -27,7 +27,7 @@ export const ProductCard: React.FC<Props> = ({id, name, price, count, imageUrl, 
       <p className="text-sm text-gray-400">
         Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфредо, чеснок
       </p>
-      </Link>
+      
 
       <div className="flex justify-between items-center mt-4">
         <span className="text-[20px]">
@@ -43,6 +43,7 @@ export const ProductCard: React.FC<Props> = ({id, name, price, count, imageUrl, 
           </Button>
         )}
       </div>
+      </Link>
     </div>
   );
 };
