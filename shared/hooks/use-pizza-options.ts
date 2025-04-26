@@ -25,6 +25,8 @@ export const usePizzaOptions = (items: ProductItem[]): ReturnProps => {
 
   const currentItemId = items.find((item) => item.pizzaType === type && item.size === size)?.id;
 
+  
+
   React.useEffect(() => {
     const isAvailableSize = availableSizes?.find(
       (item) => Number(item.value) === size && !item.disabled,
