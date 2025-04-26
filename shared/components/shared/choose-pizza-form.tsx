@@ -17,6 +17,7 @@ interface Props {
     className?: string;
     ingredients: Ingredient[];
     items: ProductItem[];
+    loading?: boolean;
     onSubmit: (itemId: number, ingredients: number[]) => void;
 }
 
@@ -26,6 +27,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
     items,
     imageUrl,
     ingredients,
+    loading,
     onSubmit,
     className, 
 }) => {
@@ -76,7 +78,9 @@ export const ChoosePizzaForm: React.FC<Props> = ({
                 </div>
 
 
-                <Button onClick={handleClickAdd}
+                <Button 
+                loading={loading}
+                onClick={handleClickAdd}
                     className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10 ">
                         Добавить в корзину за {totalPrice} ₽
                 </Button>

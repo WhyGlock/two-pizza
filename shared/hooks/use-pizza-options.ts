@@ -1,5 +1,5 @@
-import { PizzaSize, PizzaType } from '@/shared/constant/pizza';
 import React from 'react';
+import { PizzaSize, PizzaType } from '@/shared/constant/pizza';
 import { Variant } from '../components/shared/group-variants';
 import { useSet } from 'react-use';
 import { getAvailablePizzaSizes } from '../lib';
@@ -25,14 +25,14 @@ export const usePizzaOptions = (items: ProductItem[]): ReturnProps => {
 
   const currentItemId = items.find((item) => item.pizzaType === type && item.size === size)?.id;
 
-  
-
   React.useEffect(() => {
+    // Проверяем доступность размеров и выбираем первый доступный
     const isAvailableSize = availableSizes?.find(
       (item) => Number(item.value) === size && !item.disabled,
     );
     const availableSize = availableSizes?.find((item) => !item.disabled);
 
+    // Обновляем только если текущий размер недоступен
     if (!isAvailableSize && availableSize) {
       setSize(Number(availableSize.value) as PizzaSize);
     }
