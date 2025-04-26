@@ -38,7 +38,7 @@ export default async function ProductPage({ params: { id } }: { params: { id: st
         <p className="text-gray-400">я бы скушал, но у меня нет ротика</p>
 
         <GroupVariants 
-        selectedValue="2"
+        Value="2"
         items={[
             {
             name: 'Маленькая',

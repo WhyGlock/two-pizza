@@ -12,16 +12,14 @@ interface Props {
 }
 
 export const CartButton: React.FC<Props> = ({ className }) => {
-  const [totalAmount, items, loading] = useCartStore((state) => [
-    state.totalAmount,
-    state.items,
-    state.loading,
-  ]);
+  const totalAmount = useCartStore(state => state.totalAmount);
+  const items = useCartStore(state => state.items);
+  const loading = useCartStore(state => state.loading);
 
   return (
     <CartDrawer>
       <Button
-       
+       loading={loading}
         className={cn('group relative', { 'w-[105px]': loading }, className)}>
         <b>{totalAmount} ₽</b>
         <span className="h-full w-[1px] bg-white/30 mx-3" />
