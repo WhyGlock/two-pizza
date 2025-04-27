@@ -11,4 +11,5 @@ export { ProductImage } from './product-image';
 export {IngredientItem} from './ingredient-item';
 export * from './modals';
 export { ChooseProductForm } from './choose-product-form';
-export { CartDrawer } from './cart-drawer'
+export { CartDrawer } from './cart-drawer';
+export { ProductForm } from './product-form';

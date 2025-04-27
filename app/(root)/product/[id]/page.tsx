@@ -1,9 +1,10 @@
 
-import { ProductImage, Title } from '@/shared/components/shared';
+import { ProductForm } from '@/shared/components/shared';
 import { Container } from '@/shared/components/shared/container';
-import { GroupVariants } from '@/shared/components/shared/group-variants';
+
 import { prisma } from '@/prisma/prisma-client';
 import { notFound } from 'next/navigation';
+
 
 export default async function ProductPage({ params: { id } }: { params: { id: string } }) {
   const product = await prisma.product.findFirst({
@@ -22,41 +23,14 @@ export default async function ProductPage({ params: { id } }: { params: { id: st
       items: true,
     },
   });
-
+  
   if (!product) {
     return notFound();
   }
 
   return (
     <Container className="flex flex-col my-10">
-        <div className="flex flex-1">
-        <ProductImage imageUrl={product.imageUrl} className="" size={40}/>
-
-            <div className="w-[490px] bg-[#e9e9e9] p-7">
-        <Title text={product.name} size="md" className="font-extrabold mb-1"/>
-
-        <p className="text-gray-400">я бы скушал, но у меня нет ротика</p>
-
-        <GroupVariants 
-        Value="2"
-        items={[
-            {
-            name: 'Маленькая',
-            value: '1',
-            },
-            {
-            name: 'Средняя',
-            value: '2',
-            },
-            {
-                name: 'Большая',
-                value: '3',
-                disabled: true,
-            },
-        
-        ]}  />
-            </div>
-        </div>
+      <ProductForm product={product}/>
     </Container>
   );
 }
