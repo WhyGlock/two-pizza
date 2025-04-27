@@ -30,7 +30,7 @@ export default async function ProductPage({ params: { id } }: { params: { id: st
 
   return (
     <Container className="flex flex-col my-10">
-      <ProductForm product={product}/>
+      <ProductForm product={product} onSubmit={console.log}/>
     </Container>
   );
 }
