@@ -1,3 +1,4 @@
+import { WhiteBlock } from './white-block';
 export { SearchInput } from './search-input';
 export { Container } from './container';
 export { Header } from './header';
@@ -13,3 +14,8 @@ export * from './modals';
 export { ChooseProductForm } from './choose-product-form';
 export { CartDrawer } from './cart-drawer';
 export { ProductForm } from './product-form';
+export { WhiteBlock } from './white-block';
+export { CheckoutItemDetails } from './checkout-details';
+export { CheckoutItem } from './checkout-item';
+export { CheckoutItemSkeleton } from './checkout-item-skeleton';
+export { CheckoutSideBar } from './checkout-side-bar';

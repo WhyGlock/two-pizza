@@ -101,6 +101,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
 
                   <Link href="/checkout">
                     <Button
+                    loading={redirecting}
                       onClick={() => setRedirecting(true)}
                       type="submit"
                       className="w-full h-12 text-base">
