@@ -3,16 +3,18 @@ import { WhiteBlock } from "./white-block";
 import { CheckoutItemDetails } from "./checkout-details";
 import { ArrowRightToLineIcon, Package, Percent, TruckIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
 
 const VAT = 15;
 const DELIVERY_PRICE = 250;
 
 interface Props {
     totalAmount: number;
+    loading?: boolean;
     className?: string;
 }
 
-export const CheckoutSideBar: React.FC<Props> = ({className, totalAmount}) => {
+export const CheckoutSideBar: React.FC<Props> = ({className,loading, totalAmount}) => {
     
     const vatPriced = (totalAmount * VAT) / 100;
     const totalPrice = totalAmount + DELIVERY_PRICE + vatPriced;
@@ -21,7 +23,9 @@ export const CheckoutSideBar: React.FC<Props> = ({className, totalAmount}) => {
         <WhiteBlock className="p-6 sticky top-4">
                 <div className="flex flex-col gap-1">
                     <span className="text-xl">Итого:</span>
-                    <span className="text-4xl font-extralight">{totalPrice}</span> 
+                    {
+                        loading ? <Skeleton className=" h-11 w-48"/> : <span className="text-4xl font-extralight">{totalPrice}</span>
+                    } 
                 </div>
 
             <CheckoutItemDetails 
@@ -31,20 +35,21 @@ export const CheckoutSideBar: React.FC<Props> = ({className, totalAmount}) => {
                 Стоимость корзины:
                 </div>
             } 
-            value={`${totalAmount} ₽`}
+            value={loading ? <Skeleton className=" h-6 w-14 rounded-sm"/> : `${totalAmount} ₽`}
              />
             <CheckoutItemDetails title={
                 <div className="flex items-center">
                 <Percent size={24} className="mr-2 text-gray-300"/>
                 Налоги:
                 </div>
-            }  value={`${vatPriced} ₽`} />
+            }  value={loading ? <Skeleton className=" h-6 w-14 rounded-sm"/> : `${vatPriced} ₽`}
+            />
             <CheckoutItemDetails title={
                 <div className="flex items-center">
                 <TruckIcon size={24} className="mr-2 text-gray-300"/>
                 Доставка:
                 </div>
-            }  value={`${DELIVERY_PRICE} ₽`} />
+            }  value={loading ? <Skeleton className=" h-6 w-14 rounded-sm"/> : `${DELIVERY_PRICE} ₽`} />
 
             <Button 
             type="submit"
